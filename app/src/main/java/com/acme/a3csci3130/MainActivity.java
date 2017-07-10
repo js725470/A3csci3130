@@ -11,6 +11,13 @@ import android.widget.TextView;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.FirebaseDatabase;
 
+/** This Activity has a button that will lead to the ContactCreateActivity. It also displays the
+ * name of each business contact from FireBase in a listView and allows the user to click on a
+ * name, which leads the user to the DetailViewActivity.
+ *
+ * @author Juliano Franz
+ * @version 1.0
+ */
 public class MainActivity extends Activity {
 
 
@@ -46,22 +53,32 @@ public class MainActivity extends Activity {
             // onItemClick method is called everytime a user clicks an item on the list
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Contact person = (Contact) firebaseAdapter.getItem(position);
-                showDetailView(person);
+                Contact business = (Contact) firebaseAdapter.getItem(position);
+                showDetailView(business);
             }
         });
     }
 
+    /** Starts the CreateContactActivity.
+     *
+     * @author Juliano Franz
+     * @version 1.0
+     */
     public void createContactButton(View v)
     {
         Intent intent=new Intent(this, CreateContactAcitivity.class);
         startActivity(intent);
     }
 
-    private void showDetailView(Contact person)
+    /** Starts the DetailViewActivity and sends a Contact object to it.
+     *
+     * @author Juliano Franz
+     * @version 1.0
+     */
+    private void showDetailView(Contact business)
     {
         Intent intent = new Intent(this, DetailViewActivity.class);
-        intent.putExtra("Contact", person);
+        intent.putExtra("Contact", business);
         startActivity(intent);
     }
 

@@ -6,10 +6,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+/** Creates a Contact by submitting the contents of the five EditText fields to a new node in FireBase.
+ *
+ * @author Juliano Franz
+ * @author Joshua Morash
+ * @version 2.0
+ */
 public class CreateContactAcitivity extends Activity {
 
     private Button submitButton;
-    private EditText nameField, emailField;
+    private EditText nameField, businessIdField, primaryBusinessField, addressField, provinceOrTerritoryField;
     private MyApplicationData appState;
 
     @Override
@@ -20,18 +26,30 @@ public class CreateContactAcitivity extends Activity {
         appState = ((MyApplicationData) getApplicationContext());
 
         submitButton = (Button) findViewById(R.id.submitButton);
+        primaryBusinessField = (EditText) findViewById(R.id.primaryBusiness);
+        addressField = (EditText) findViewById(R.id.address);
         nameField = (EditText) findViewById(R.id.name);
-        emailField = (EditText) findViewById(R.id.email);
+        businessIdField = (EditText) findViewById(R.id.businessId);
+        provinceOrTerritoryField = (EditText) findViewById(R.id.provinceOrTerritory);
     }
 
+    /** Submits the contents of the five EditText fields to a new node in FireBase.
+     *
+     * @author Juliano Franz
+     * @author Joshua Morash
+     * @version 2.0
+     */
     public void submitInfoButton(View v) {
-        //each entry needs a unique ID
-        String personID = appState.firebaseReference.push().getKey();
-        String name = nameField.getText().toString();
-        String email = emailField.getText().toString();
-        Contact person = new Contact(personID, name, email);
 
-        appState.firebaseReference.child(personID).setValue(person);
+        String key = appState.firebaseReference.push().getKey();
+        String businessId = businessIdField.getText().toString();
+        String name = nameField.getText().toString();
+        String primaryBusiness = primaryBusinessField.getText().toString();
+        String address = addressField.getText().toString();
+        String provinceOrTerritory = provinceOrTerritoryField.getText().toString();
+        Contact business = new Contact(key, name, businessId, primaryBusiness, address, provinceOrTerritory);
+
+        appState.firebaseReference.child(key).setValue(business);
 
         finish();
 
